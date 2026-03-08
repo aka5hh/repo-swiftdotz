@@ -16,10 +16,14 @@
       --nav-text: #1a1a2e;
     }
 
+    html {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
     body {
       font-family: 'Montserrat', sans-serif;
       background: #ffffff;
-      min-height: 100vh;
       overflow-x: hidden;
     }
 
@@ -91,11 +95,13 @@
     .hero {
       position: relative;
       width: 100%;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
 
     /* ── ARROWS ── */
@@ -204,7 +210,7 @@
     .sourcing-section {
       position: relative;
       width: 100%;
-      min-height: 100vh;
+      height: 100vh;
       background: #fff;
       display: flex;
       flex-direction: column;
@@ -212,6 +218,8 @@
       justify-content: flex-start;
       padding-top: 110px;
       overflow: hidden;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
 
     .sourcing-arc {
@@ -459,16 +467,24 @@
   </section>
 
   <script>
-    // Scroll-triggered animations for Sourcing section
+    // Trigger animations when Sourcing section snaps into view
+    const sourcing = document.getElementById('sourcing');
+    const content  = document.getElementById('sourcing-content');
+    const plane    = document.getElementById('airplane-wrap');
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          document.getElementById('sourcing-content').classList.add('visible');
-          document.getElementById('airplane-wrap').classList.add('visible');
+          content.classList.add('visible');
+          plane.classList.add('visible');
+        } else {
+          // Reset so animation replays each time section snaps in
+          content.classList.remove('visible');
+          plane.classList.remove('visible');
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.5 });
 
-    observer.observe(document.getElementById('sourcing'));
+    observer.observe(sourcing);
   </script>
 </html>
