@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwiftDotz Global Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #2ecc71;
+      --green-dark: #27ae60;
+      --blue: #1a3a6b;
+      --blue-mid: #2d5fa0;
+      --nav-text: #1a1a2e;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #ffffff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(32px, 6vw, 96px);
+      padding: 28px 40px;
+      background: #fff;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--nav-text);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    nav a:hover { color: var(--green-dark); }
+
+    /* ── DROPDOWN ── */
+    .nav-item { position: relative; }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2d5fa0;
+      min-width: 160px;
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+      border-radius: 0 0 4px 4px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+
+    .nav-item:hover .dropdown { display: flex; }
+
+    .nav-item:hover > a {
+      background: #2d5fa0;
+      color: #fff !important;
+      padding: 6px 18px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .dropdown a {
+      color: #fff !important;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      padding: 11px 20px;
+      transition: background 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover { background: #2ecc71; color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── ARROWS ── */
+    /* Bottom-left blue arrow */
+    .arrow-blue {
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 300px;
+      height: 300px;
+      opacity: 0;
+      animation: fadeIn 0.9s 0.3s forwards;
+    }
+
+    /* Top-right green arrow */
+    .arrow-green {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 280px;
+      height: 280px;
+      opacity: 0;
+      animation: fadeIn 0.9s 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* ── LOGO ── */
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: riseIn 0.8s 0.15s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    @keyframes riseIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-text {
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+    }
+
+    /* "Swift" — gradient green→blue-green */
+    .swift {
+      background: linear-gradient(135deg, #2ecc71 0%, #1a9e50 60%, #1a6e8a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* "Dotz" — gradient blue */
+    .dotz {
+      background: linear-gradient(135deg, #1e5fa8 0%, #1a3a6b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* divider line + GLOBAL CO. */
+    .tagline-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #b0b8c8);
+    }
+
+    .tagline {
+      font-size: clamp(11px, 1.3vw, 15px);
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      color: #2c3e6b;
+      padding: 0 18px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ── SVG ARROW SHAPES ── */
+    .arrow-blue svg,
+    .arrow-green svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── HERO BORDER ── */
+    .hero { border-bottom: 2px solid #111; }
+
+    /* ── SOURCING SECTION ── */
+    .sourcing-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 110px;
+      overflow: hidden;
+    }
+
+    .sourcing-arc {
+      position: absolute;
+      top: -55px;
+      left: -55px;
+      width: 230px;
+      height: 230px;
+      pointer-events: none;
+    }
+
+    .sourcing-content {
+      text-align: center;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .sourcing-content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sourcing-title {
+      font-size: clamp(44px, 6vw, 74px);
+      font-weight: 700;
+      color: #1a3a6b;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .sourcing-subtitle {
+      font-size: clamp(14px, 1.5vw, 17px);
+      font-weight: 400;
+      color: #555;
+      margin-bottom: 36px;
+    }
+
+    .learn-more-btn {
+      display: inline-block;
+      padding: 14px 52px;
+      border: 2px solid #111;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #111;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      transition: background 0.25s, color 0.25s;
+    }
+    .learn-more-btn:hover { background: #111; color: #fff; }
+
+    /* Airplane */
+    .airplane-wrap {
+      position: absolute;
+      bottom: 0;
+      left: -5%;
+      width: 90%;
+      z-index: 1;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.9s 0.2s ease, transform 0.9s 0.2s ease;
+    }
+    .airplane-wrap.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .airplane-wrap img {
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Who We Are</a>
+    <div class="nav-item">
+      <a href="#">What We Do</a>
+      <div class="dropdown">
+        <a href="#">Sourcing</a>
+        <a href="#">Supplying</a>
+        <a href="#">Consulting</a>
+      </div>
+    </div>
+    <a href="#">Contact Us</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- Bottom-left blue curved arrow -->
+    <div class="arrow-blue">
+      <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="blueGrad" x1="300" y1="0" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#4a90d9"/>
+            <stop offset="100%" stop-color="#1a3a6b"/>
+          </linearGradient>
+        </defs>
+        <!-- Thick curved arc — bottom-left quadrant, arrow points left/up -->
+        <path
+          d="M 270 270
+             A 200 200 0 0 0 70 70"
+          stroke="url(#blueGrad)"
+          stroke-width="52"
+          stroke-linecap="round"
+          fill="none"
+        />
+        <!-- Arrowhead pointing left -->
+        <polygon
+          points="40,98  95,50  58,110"
+          fill="#1a3a6b"
+        />
+      </svg>
+    </div>
+
+    <!-- Top-right green curved arrow -->
+    <div class="arrow-green">
+      <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="greenGrad" x1="0" y1="280" x2="280" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#27ae60"/>
+            <stop offset="100%" stop-color="#2ecc71"/>
+          </linearGradient>
+        </defs>
+        <!-- Thick curved arc — top-right quadrant, arrow points right/down -->
+        <path
+          d="M 10 10
+             A 200 200 0 0 1 220 220"
+          stroke="url(#greenGrad)"
+          stroke-width="52"
+          stroke-linecap="round"
+          fill="none"
+        />
+        <!-- Arrowhead pointing down-right -->
+        <polygon
+          points="248,192  196,248  190,185"
+          fill="#27ae60"
+        />
+      </svg>
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo-text">
+        <span class="swift">Swift</span><span class="dotz">Dotz</span>
+      </div>
+      <div class="tagline-row">
+        <div class="divider"></div>
+        <span class="tagline">Global Co.</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SOURCING SECTION -->
+  <section class="sourcing-section" id="sourcing">
+
+    <!-- Top-left blue arc (partial circle, bottom-right quadrant visible) -->
+    <svg class="sourcing-arc" viewBox="0 0 230 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="blueArcGrad" x1="0" y1="0" x2="230" y2="230" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#4a90d9"/>
+          <stop offset="100%" stop-color="#1a3a6b"/>
+        </linearGradient>
+      </defs>
+      <!-- Arc visible only in bottom-right, clipped by top-left offset -->
+      <path
+        d="M 230 10 A 160 160 0 0 0 10 230"
+        stroke="url(#blueArcGrad)"
+        stroke-width="48"
+        stroke-linecap="round"
+        fill="none"
+      />
+    </svg>
+
+    <!-- Text content -->
+    <div class="sourcing-content" id="sourcing-content">
+      <h1 class="sourcing-title">Sourcing</h1>
+      <p class="sourcing-subtitle">Going far &amp; wide for the best and feasible solutions.</p>
+      <a href="#" class="learn-more-btn">Learn More</a>
+    </div>
+
+    <!-- Airplane image -->
+    <div class="airplane-wrap" id="airplane-wrap">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png"
+        alt="Airplane"
+        onerror="this.style.display='none'"
+      />
+      <!-- Fallback SVG airplane silhouette -->
+      <svg viewBox="0 0 1400 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <defs>
+          <linearGradient id="planeGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d8d8d8"/>
+            <stop offset="100%" stop-color="#a8a8a8"/>
+          </linearGradient>
+          <linearGradient id="planeBodyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e2e2e2"/>
+            <stop offset="60%" stop-color="#c5c5c5"/>
+            <stop offset="100%" stop-color="#a0a0a0"/>
+          </linearGradient>
+        </defs>
+        <!-- Fuselage -->
+        <ellipse cx="700" cy="310" rx="580" ry="72" fill="url(#planeBodyGrad)"/>
+        <!-- Nose -->
+        <path d="M 1280 310 Q 1380 310 1390 305 Q 1380 295 1280 290 Z" fill="#b8b8b8"/>
+        <!-- Tail fin -->
+        <path d="M 160 310 Q 140 160 220 120 Q 260 108 280 200 L 280 310 Z" fill="url(#planeGrad)"/>
+        <!-- Horizontal stabilizer -->
+        <path d="M 180 320 Q 100 340 60 360 L 90 370 Q 140 355 200 338 Z" fill="#c0c0c0"/>
+        <path d="M 180 300 Q 100 280 60 260 L 90 255 Q 140 270 200 285 Z" fill="#c0c0c0"/>
+        <!-- Main wing -->
+        <path d="M 650 330 Q 500 380 200 460 L 230 480 Q 540 420 680 368 Z" fill="url(#planeGrad)"/>
+        <path d="M 700 290 Q 560 270 350 250 L 355 265 Q 570 285 710 308 Z" fill="#c8c8c8"/>
+        <!-- Engine under wing -->
+        <ellipse cx="500" cy="420" rx="62" ry="28" fill="#b0b0b0"/>
+        <ellipse cx="500" cy="420" rx="55" ry="22" fill="#c8c8c8"/>
+        <!-- Windows -->
+        <g fill="#888" opacity="0.5">
+          <rect x="700" y="290" width="18" height="22" rx="4"/>
+          <rect x="740" y="290" width="18" height="22" rx="4"/>
+          <rect x="780" y="290" width="18" height="22" rx="4"/>
+          <rect x="820" y="290" width="18" height="22" rx="4"/>
+          <rect x="860" y="290" width="18" height="22" rx="4"/>
+          <rect x="900" y="292" width="18" height="22" rx="4"/>
+          <rect x="940" y="294" width="18" height="22" rx="4"/>
+          <rect x="980" y="296" width="18" height="22" rx="4"/>
+          <rect x="1020" y="297" width="18" height="22" rx="4"/>
+          <rect x="1060" y="298" width="18" height="22" rx="4"/>
+          <rect x="1100" y="299" width="18" height="22" rx="4"/>
+          <rect x="1140" y="300" width="18" height="22" rx="4"/>
+          <rect x="1180" y="300" width="18" height="22" rx="4"/>
+        </g>
+        <!-- Green engine accent -->
+        <ellipse cx="500" cy="448" rx="18" ry="14" fill="#2ecc71" opacity="0.7"/>
+      </svg>
+    </div>
+
+  </section>
+
+  <script>
+    // Scroll-triggered animations for Sourcing section
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.getElementById('sourcing-content').classList.add('visible');
+          document.getElementById('airplane-wrap').classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    observer.observe(document.getElementById('sourcing'));
+  </script>
+</html>
