@@ -5,30 +5,45 @@ const sourcing = document.getElementById('sourcing');
 const content = document.getElementById('sourcing-content');
 const plane = document.getElementById('airplane-wrap');
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      content.classList.add('visible');
-      plane.classList.add('visible');
-    } else {
-      // Reset so animation replays each time section snaps in
-      content.classList.remove('visible');
-      plane.classList.remove('visible');
-    }
+if (scrollContainer && sourcing && content && plane) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        content.classList.add('visible');
+        plane.classList.add('visible');
+      } else {
+        content.classList.remove('visible');
+        plane.classList.remove('visible');
+      }
+    });
+  }, {
+    root: scrollContainer,
+    threshold: 0.6
   });
-}, {
-  root: scrollContainer, // observe within scroll-container, not the window
-  threshold: 0.5
-});
 
-observer.observe(sourcing);
-
+  observer.observe(sourcing);
+}
 // Mobile support for dropdown menus
 const navItems = document.querySelectorAll('.nav-item');
 
 navItems.forEach(item => {
   item.addEventListener('click', (e) => {
-    // Toggles the active class when tapped
+
+    if (e.target.closest('.dropdown')) return;
+
+    e.preventDefault();
+
+    // close other menus
+    navItems.forEach(nav => {
+      if (nav !== item) nav.classList.remove('active');
+    });
+
     item.classList.toggle('active');
   });
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.nav-item')) {
+    navItems.forEach(nav => nav.classList.remove('active'));
+  }
 });
